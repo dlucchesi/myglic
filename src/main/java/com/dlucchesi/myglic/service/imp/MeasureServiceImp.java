@@ -10,8 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
 import static java.util.Objects.isNull;
 
@@ -29,12 +28,26 @@ public class MeasureServiceImp implements com.dlucchesi.myglic.service.MeasureSe
     }
 
     @Override
+    public Set<Measure> findByUser(User user){
+        Set<Measure> ret = Collections.EMPTY_SET;
+        if (!isNull(user)) {
+            Set<MeasureImp> measures = measureImpRepository.findByUser(user);
+            if (!isNull(measures) && measures.size() > 0){
+                ret = new HashSet<>();
+                ret.addAll(measures.stream().toList());
+            }
+        } else {
+            log.warn("User empty!!!");
+        }
+        return ret;
+    }
+
+    @Override
     public Optional<Measure> find(Long id){
         Optional<Measure> ret = Optional.empty();
         Optional<MeasureImp> opt = measureImpRepository.findById(id);
         if (opt.isPresent()){
-            MeasureImp tmp = opt.get();
-            Measure entity = tmp;
+            Measure entity = opt.get();
             ret = Optional.of(entity);
         }
         return ret;

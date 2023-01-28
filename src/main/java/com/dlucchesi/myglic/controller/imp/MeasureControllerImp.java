@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.Set;
 
 import static java.util.Objects.isNull;
 
@@ -32,10 +33,12 @@ public class MeasureControllerImp implements com.dlucchesi.myglic.controller.Mea
     @RequestMapping("/userId/{id}")
     public ResponseEntity<?> findByUser(@PathVariable("id") Long id, HttpServletRequest request){
         if (!isNull(id) && id.compareTo(0L) > 0) {
+            log.info("Id param {}", id);
             Optional<User> optU = userService.find(id);
             if (optU.isPresent()){
                 User user = optU.get();
-                return ResponseEntity.ok(user.getMeasures());
+                Set<Measure> measures = measureService.findByUser(user);
+                return ResponseEntity.ok(measures);
             } else {
                 log.info("User not found. Id {}", id);
                 return ResponseEntity.ok().build();

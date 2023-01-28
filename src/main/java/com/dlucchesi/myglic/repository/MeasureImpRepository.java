@@ -1,5 +1,6 @@
 package com.dlucchesi.myglic.repository;
 
+import com.dlucchesi.myglic.model.User;
 import com.dlucchesi.myglic.model.imp.MeasureImp;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,4 +12,5 @@ import java.util.Set;
 public interface MeasureImpRepository extends JpaRepository<MeasureImp, Long> {
 
     Set<MeasureImp> findByDtEntry(Date dtEntry);
+    Set<MeasureImp> findByUser(User user);
 }
