@@ -1,0 +1,5 @@
+# Dev
+java -jar .\myglic.war --spring.profiles.active=dev
+
+# Test
+java -jar .\myglic.war --spring.profiles.active=test
