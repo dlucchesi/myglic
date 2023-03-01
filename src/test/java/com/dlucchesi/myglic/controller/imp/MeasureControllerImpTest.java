@@ -121,4 +121,6 @@ public class MeasureControllerImpTest {
         }
     }
 
+//    TODO: test to inactivate a measure
+
 }

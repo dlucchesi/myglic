@@ -1,5 +1,6 @@
 myglic:
   status: OK
+  cors: ENABLED
 
 spring:
 #  profiles:
