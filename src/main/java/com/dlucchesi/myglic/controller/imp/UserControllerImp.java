@@ -1,6 +1,7 @@
 package com.dlucchesi.myglic.controller.imp;
 
 import com.dlucchesi.myglic.model.User;
+import com.dlucchesi.myglic.model.imp.LoginImp;
 import com.dlucchesi.myglic.model.imp.UserImp;
 import com.dlucchesi.myglic.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +24,32 @@ import static java.util.Objects.isNull;
 public class UserControllerImp implements com.dlucchesi.myglic.controller.UserController {
 
     final UserService   userService;
+
+    @Override
+    @PostMapping
+    @RequestMapping("/doLogin")
+    public ResponseEntity<?> doLogin(@RequestBody LoginImp login, HttpServletRequest request){
+        if (!isNull(login)) {
+            Optional<User> optU = userService.findByLogin(login.getLogin());
+            if (optU.isPresent()){
+                User user = optU.get();
+                log.debug("User found! User {}", user);
+                if (user.getPasswd().equals(login.getPasswd())) {
+                    log.debug("User password match! User {}", user);
+                    return ResponseEntity.ok(user);
+                } else {
+                    log.info("User password not match!. Login {}", login);
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                }
+            } else {
+                log.info("User not found. Login {}", login);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+        } else {
+            log.warn("Receive empty req from IP: {}", request.getRemoteAddr());
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 
     @Override
     @GetMapping
@@ -48,6 +75,7 @@ public class UserControllerImp implements com.dlucchesi.myglic.controller.UserCo
     @GetMapping
     @RequestMapping("/{id}")
     public ResponseEntity<?> find(@PathVariable("id") Long id, HttpServletRequest request){
+        log.info("Id param: {}", id);
         if (!isNull(id) && id.compareTo(0L) > 0){
             Optional<User> optU = userService.find(id);
             if (optU.isPresent()) {

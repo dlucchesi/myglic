@@ -1,6 +1,7 @@
 package com.dlucchesi.myglic.controller.imp;
 
 import com.dlucchesi.myglic.model.User;
+import com.dlucchesi.myglic.model.imp.LoginImp;
 import com.dlucchesi.myglic.service.UserService;
 import com.dlucchesi.myglic.util.EntityUtil;
 import jakarta.transaction.Transactional;
@@ -34,6 +35,62 @@ public class UserControllerImpTest {
     final EntityUtil    entityUtil;
 
     final UserService   userService;
+
+    @DisplayName("Login user NOK")
+    @Test
+    void loginUserErr() throws Exception {
+        User newUser = entityUtil.createNewUser();
+        Optional<User> optU = userService.save(newUser);
+
+        if (optU.isPresent()) {
+            User u = optU.get();
+            LoginImp login = new LoginImp();
+            login.setLogin(u.getLogin());
+            login.setPasswd("@098765");
+
+            mockMvc.perform(post(URI + "/doLogin")
+                            .content(EntityUtil.asJsonString(login))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(MockMvcResultHandlers.print())
+                    .andExpect(status().isForbidden())
+            ;
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.application[*].employeeId").isNotEmpty());
+        } else {
+            log.error("User NOT saved! User {}", newUser);
+        }
+
+    }
+
+    @DisplayName("Login user OK")
+    @Test
+    void loginUser() throws Exception {
+        User newUser = entityUtil.createNewUser();
+        Optional<User> optU = userService.save(newUser);
+
+        if (optU.isPresent()) {
+            User u = optU.get();
+            LoginImp login = new LoginImp();
+            login.setLogin(u.getLogin());
+            login.setPasswd(u.getPasswd());
+
+            mockMvc.perform(post(URI + "/doLogin")
+                            .content(EntityUtil.asJsonString(login))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(MockMvcResultHandlers.print())
+                    .andExpect(status().isOk())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.login").exists())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.login").value(u.getLogin()))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(u.getId()))
+            ;
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.application[*].employeeId").isNotEmpty());
+        } else {
+            log.error("User NOT saved! User {}", newUser);
+        }
+
+    }
 
     @DisplayName("Test save user")
     @Test

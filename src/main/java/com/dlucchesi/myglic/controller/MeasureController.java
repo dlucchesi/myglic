@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.*;
 
 public interface MeasureController {
     @GetMapping
+    @RequestMapping("/userId/{id}/all")
+    ResponseEntity<?> findAllByUser(@PathVariable("id") Long id, HttpServletRequest request);
+
+    @GetMapping
     @RequestMapping("/userId/{id}")
     ResponseEntity<?> findByUser(@PathVariable("id") Long id, HttpServletRequest request);
 
