@@ -118,8 +118,6 @@ public class MeasureControllerImpTest {
             Optional<Measure> optM2 = measureService.save(tmp2);
 
             if (optM1.isPresent() && optM2.isPresent()) {
-                Measure m1 = optM1.get();
-                Measure m2 = optM2.get();
                 mockMvc.perform(get(URI + "/userId/" + u.getId() + "/all")
                                 .accept(MediaType.APPLICATION_JSON))
                         .andDo(MockMvcResultHandlers.print())
@@ -158,8 +156,6 @@ public class MeasureControllerImpTest {
             Optional<Measure> optM2 = measureService.save(tmp2);
 
             if (optM1.isPresent() && optM2.isPresent()) {
-                Measure m1 = optM1.get();
-                Measure m2 = optM2.get();
                 mockMvc.perform(get(URI + "/userId/" + u.getId())
                                 .accept(MediaType.APPLICATION_JSON))
                         .andDo(MockMvcResultHandlers.print())
@@ -219,12 +215,8 @@ public class MeasureControllerImpTest {
                                 .accept(MediaType.APPLICATION_JSON))
                         .andDo(MockMvcResultHandlers.print())
                         .andExpect(status().isOk())
-//                        .andExpect(MockMvcResultMatchers.jsonPath("$.measureEntry").exists())
-//                        .andExpect(MockMvcResultMatchers.jsonPath("$.measureEntry").value(m.getMeasureEntry()))
-//                        .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
-//                        .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(m.getId()))
-//                        .andExpect(MockMvcResultMatchers.jsonPath("$.active").exists())
-//                        .andExpect(MockMvcResultMatchers.jsonPath("$.active").value(false))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.message").exists())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Inactivated!"))
                 ;
             } else {
                 log.error("Measure NOT saved! Measure {}", m);

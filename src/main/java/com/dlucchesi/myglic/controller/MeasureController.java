@@ -20,4 +20,8 @@ public interface MeasureController {
 
     @PostMapping
     ResponseEntity<?> save(@RequestBody MeasureImp measure, HttpServletRequest request);
+
+    @PostMapping
+    @RequestMapping("/inactivate/{id}")
+    ResponseEntity<?> inactivate(@PathVariable("id") Long id, HttpServletRequest request);
 }

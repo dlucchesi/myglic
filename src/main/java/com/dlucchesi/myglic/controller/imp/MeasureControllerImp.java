@@ -2,6 +2,7 @@ package com.dlucchesi.myglic.controller.imp;
 
 import com.dlucchesi.myglic.model.Measure;
 import com.dlucchesi.myglic.model.User;
+import com.dlucchesi.myglic.model.data.MessageData;
 import com.dlucchesi.myglic.model.imp.MeasureImp;
 import com.dlucchesi.myglic.service.MeasureService;
 import com.dlucchesi.myglic.service.UserService;
@@ -116,6 +117,7 @@ public class MeasureControllerImp implements com.dlucchesi.myglic.controller.Mea
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
+    @Override
     @PostMapping
     @RequestMapping("/inactivate/{id}")
     public ResponseEntity<?> inactivate(@PathVariable("id") Long id, HttpServletRequest request){
@@ -129,7 +131,7 @@ public class MeasureControllerImp implements com.dlucchesi.myglic.controller.Mea
                 if (optRet.isPresent()){
                     Measure ret = optRet.get();
                     log.debug("Measure inactivated! Measure {}", ret);
-                    return ResponseEntity.ok("Inactivated!");
+                    return ResponseEntity.ok(new MessageData("Inactivated!"));
                 } else {
                     log.warn("Measure NOT inactivated! Data {}", toAlter);
                     return ResponseEntity
