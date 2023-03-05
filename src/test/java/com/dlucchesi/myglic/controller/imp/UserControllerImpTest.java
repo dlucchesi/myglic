@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -54,6 +55,33 @@ public class UserControllerImpTest {
                             .accept(MediaType.APPLICATION_JSON))
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(status().isForbidden())
+            ;
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.application[*].employeeId").isNotEmpty());
+        } else {
+            log.error("User NOT saved! User {}", newUser);
+        }
+
+    }
+
+    @DisplayName("Issue3-message-in-status-403")
+    @Test
+    void loginUserErrIssue3() throws Exception {
+        User newUser = entityUtil.createNewUser();
+        Optional<User> optU = userService.save(newUser);
+
+        if (optU.isPresent()) {
+            User u = optU.get();
+            LoginImp login = new LoginImp();
+            login.setLogin(u.getLogin());
+            login.setPasswd("@098765");
+
+            mockMvc.perform(post(URI + "/doLogin")
+                            .content(EntityUtil.asJsonString(login))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(MockMvcResultHandlers.print())
+                    .andExpect(status().isForbidden())
+                    .andExpect(content().string("Forbidden"))
             ;
 //                .andExpect(MockMvcResultMatchers.jsonPath("$.application[*].employeeId").isNotEmpty());
         } else {

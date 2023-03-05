@@ -39,11 +39,17 @@ public class UserControllerImp implements com.dlucchesi.myglic.controller.UserCo
                     return ResponseEntity.ok(user);
                 } else {
                     log.info("User password not match!. Login {}", login);
-                    return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                    return ResponseEntity
+                            .status(HttpStatus.FORBIDDEN)
+                            .header(HttpHeaders.CONTENT_TYPE)
+                            .body("Forbidden");
                 }
             } else {
                 log.info("User not found. Login {}", login);
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                return ResponseEntity
+                        .status(HttpStatus.FORBIDDEN)
+                        .header(HttpHeaders.CONTENT_TYPE)
+                        .body("Forbidden");
             }
         } else {
             log.warn("Receive empty req from IP: {}", request.getRemoteAddr());
