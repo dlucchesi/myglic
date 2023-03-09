@@ -5,16 +5,19 @@ myglic:
 spring:
 #  profiles: dev
   # Security configuration
+  ####
 #  security:
 #    user:
 #      name: user
 #      password: user
+
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/db_myglic
-    username: usr_myglic
-    password: 654321
+    url: ${MYGLIC_DB_URL}
+    username: ${MYGLIC_DB_USER}
+    password: ${MYGLIC_DB_PASS}
+
   # JPA properties
   jpa:
     hibernate:

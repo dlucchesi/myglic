@@ -6,7 +6,11 @@
         <MavenRunnerSettings>
           <option name="delegateBuildToMaven" value="false" />
           <option name="environmentProperties">
-            <map />
+            <map>
+              <entry key="MYGLIC_DB_PASS" value="654321" />
+              <entry key="MYGLIC_DB_URL" value="jdbc:postgresql://localhost:5432/db_myglic_test" />
+              <entry key="MYGLIC_DB_USER" value="usr_myglic" />
+            </map>
           </option>
           <option name="jreName" value="#USE_PROJECT_JDK" />
           <option name="mavenProperties">

@@ -13,9 +13,9 @@ spring:
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/db_myglic_test
-    username: usr_myglic
-    password: 654321
+    url: ${MYGLIC_DB_URL}
+    username: ${MYGLIC_DB_USER}
+    password: ${MYGLIC_DB_PASS}
   # JPA properties
   jpa:
     hibernate:
