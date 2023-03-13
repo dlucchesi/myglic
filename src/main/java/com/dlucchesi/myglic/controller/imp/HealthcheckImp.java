@@ -21,6 +21,8 @@ public class HealthcheckImp implements com.dlucchesi.myglic.controller.Healthche
     @Value("${myglic.status:NOK}")
     String appStatus;
 
+    protected final com.dlucchesi.myglic.service.HealthcheckService healthcheckService;
+
     @Override
     @GetMapping
     public ResponseEntity checkAll(){
@@ -36,6 +38,8 @@ public class HealthcheckImp implements com.dlucchesi.myglic.controller.Healthche
 
     private void checkAppRunning(Map<String, String> m) {
         m.put("application", appStatus);
+        m.put("database", healthcheckService.checkDatabase());
     }
+
 
 }

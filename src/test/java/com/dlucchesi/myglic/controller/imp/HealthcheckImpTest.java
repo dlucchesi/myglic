@@ -33,7 +33,11 @@ public class HealthcheckImpTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.application").exists());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.application").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.application").value("OK"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.database").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.database").value("OK"))
+        ;
 //                .andExpect(MockMvcResultMatchers.jsonPath("$.application[*].employeeId").isNotEmpty());
     }
 }
