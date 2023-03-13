@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.dlucchesi</groupId>
 	<artifactId>myglic</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>My Glic</name>
 	<description>Glicemic Control</description>
@@ -80,6 +80,9 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
+				<includes>
+					<include>**/application*.yml</include>
+				</includes>
 			</resource>
 		</resources>
 		<plugins>

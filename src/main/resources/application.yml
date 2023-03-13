@@ -1,3 +1,6 @@
 #spring:
 #  profiles:
 #    active: @activatedProperties@
+
+build:
+  version: '@project.version@' # This is the version of the application

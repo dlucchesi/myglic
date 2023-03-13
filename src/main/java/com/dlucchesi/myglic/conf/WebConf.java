@@ -13,11 +13,15 @@ import org.springframework.beans.factory.annotation.Value;
 public class WebConf implements WebMvcConfigurer {
 
     final String CORS_ENABLED = "ENABLED";
-    @Value("${myglic.cors: default DISABLED}")
+    @Value("${myglic.cors:DISABLED}")
     private String useCorsProperty;
+    @Value("${build.version:unknown}")
+    private String version;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+
+        log.info("### Myglic Version: {}", version);
 
         if (CORS_ENABLED.equals(useCorsProperty)) {
             log.info("ATTENTION: Dev CORS allowed!!!");
